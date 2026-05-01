@@ -1,0 +1,17 @@
+{
+  "name": "purple-10m-proxy",
+  "version": "1.0.0",
+  "description": "AWS Lambda proxy for the NRF fixtures API",
+  "main": "dist/handler.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx watch src/local.ts",
+    "package": "npm run build && cd dist && zip -r ../lambda.zip handler.js"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.145",
+    "@types/node": "^20.12.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.4.0"
+  }
+}
