@@ -114,13 +114,12 @@ function renderCard(f: Fixture): string {
   const opponent = weAreHome
     ? `${f.AwayTeamName} (${f.AwayOrgName})`
     : `${f.HomeTeamName} (${f.HomeOrgName})`;
-  const us = `${TEAM_NAME} (${CLUB_NAME})`;
   const mapUrl = `https://www.google.com/maps?q=${f.LocationLat},${f.LocationLng}`;
   return `
     <div class="card">
       <div class="date">${escapeHtml(date)}</div>
       <div class="time">${escapeHtml(time)}</div>
-      <div class="match"><strong>${escapeHtml(us)}</strong> vs ${escapeHtml(opponent)}</div>
+      <div class="match"><strong>${escapeHtml(TEAM_NAME)}</strong> vs ${escapeHtml(opponent)}</div>
       <div class="venue">
         ${escapeHtml(f.VenueName)}<br>
         <a href="${escapeHtml(mapUrl)}" target="_blank" rel="noopener">Open in Google Maps &rarr;</a>
