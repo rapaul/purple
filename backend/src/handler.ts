@@ -9,6 +9,7 @@ const COMP_IDS = [12881];
 const ORG_IDS = [9701];
 const GRADE_IDS = [722376];
 const TEAM_NAME = "Purple 10M";
+const CLUB_NAME = "Ellerslie AFC";
 const TZ = "Pacific/Auckland";
 
 type Fixture = {
@@ -75,6 +76,14 @@ function formatFixtureWhen(iso: string): { date: string; time: string } {
   return { date, time };
 }
 
+// The grade has multiple teams called "Purple 10M", so a fixture is only
+// ours when both the team name and the club (org) name match.
+function isOurTeam(f: Fixture, side: "Home" | "Away"): boolean {
+  return side === "Home"
+    ? f.HomeTeamName === TEAM_NAME && f.HomeOrgName === CLUB_NAME
+    : f.AwayTeamName === TEAM_NAME && f.AwayOrgName === CLUB_NAME;
+}
+
 async function fetchFixtures(from: string, to: string): Promise<Fixture[]> {
   const res = await fetch(NRF_API, {
     method: "POST",
@@ -95,24 +104,23 @@ async function fetchFixtures(from: string, to: string): Promise<Fixture[]> {
   if (!res.ok) throw new Error(`NRF API returned ${res.status}`);
   const data = (await res.json()) as NrfResponse;
   return (data.Fixtures ?? [])
-    .filter(
-      (f) => f.HomeTeamName === TEAM_NAME || f.AwayTeamName === TEAM_NAME,
-    )
+    .filter((f) => isOurTeam(f, "Home") || isOurTeam(f, "Away"))
     .sort((a, b) => a.From.localeCompare(b.From));
 }
 
 function renderCard(f: Fixture): string {
   const { date, time } = formatFixtureWhen(f.From);
-  const opponent =
-    f.HomeTeamName === TEAM_NAME
-      ? `${f.AwayTeamName} (${f.AwayOrgName})`
-      : `${f.HomeTeamName} (${f.HomeOrgName})`;
+  const weAreHome = isOurTeam(f, "Home");
+  const opponent = weAreHome
+    ? `${f.AwayTeamName} (${f.AwayOrgName})`
+    : `${f.HomeTeamName} (${f.HomeOrgName})`;
+  const us = `${TEAM_NAME} (${CLUB_NAME})`;
   const mapUrl = `https://www.google.com/maps?q=${f.LocationLat},${f.LocationLng}`;
   return `
     <div class="card">
       <div class="date">${escapeHtml(date)}</div>
       <div class="time">${escapeHtml(time)}</div>
-      <div class="match"><strong>${escapeHtml(TEAM_NAME)}</strong> vs ${escapeHtml(opponent)}</div>
+      <div class="match"><strong>${escapeHtml(us)}</strong> vs ${escapeHtml(opponent)}</div>
       <div class="venue">
         ${escapeHtml(f.VenueName)}<br>
         <a href="${escapeHtml(mapUrl)}" target="_blank" rel="noopener">Open in Google Maps &rarr;</a>
