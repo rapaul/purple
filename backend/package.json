@@ -8,9 +8,12 @@
     "dev": "tsx watch src/local.ts",
     "package": "pnpm run build && cd dist && zip -r ../lambda.zip handler.js"
   },
+  "engines": {
+    "node": ">=24"
+  },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.145",
-    "@types/node": "^20.12.0",
+    "@types/node": "^24.0.0",
     "tsx": "^4.7.0",
     "typescript": "^5.4.0"
   }

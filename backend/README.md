@@ -21,7 +21,7 @@ pnpm dev             # http://localhost:3000
 pnpm package        # produces lambda.zip (single handler.js, no runtime deps)
 ```
 
-- **Runtime:** Node.js 20.x or later (uses built-in `fetch` and `Intl`)
+- **Runtime:** Node.js 24.x (uses built-in `fetch` and `Intl`)
 - **Handler:** `handler.handler`
 - **Trigger:** API Gateway HTTP API or a Lambda Function URL
 
@@ -30,7 +30,7 @@ Quickest path — Function URL:
 ```sh
 aws lambda create-function \
   --function-name purple-10m \
-  --runtime nodejs20.x \
+  --runtime nodejs24.x \
   --role <execution-role-arn> \
   --handler handler.handler \
   --zip-file fileb://lambda.zip
