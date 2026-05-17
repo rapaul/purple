@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsx watch src/local.ts",
-    "package": "npm run build && cd dist && zip -r ../lambda.zip handler.js"
+    "package": "pnpm run build && cd dist && zip -r ../lambda.zip handler.js"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.145",

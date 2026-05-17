@@ -9,8 +9,8 @@ A single AWS Lambda that fetches fixtures from the NRF API and renders an HTML p
 ## Local dev
 
 ```sh
-npm install
-npm run dev          # http://localhost:3000
+pnpm install
+pnpm dev             # http://localhost:3000
 ```
 
 `tsx watch` reloads on save. Open the URL in a browser to see the rendered page.
@@ -18,7 +18,7 @@ npm run dev          # http://localhost:3000
 ## Build & deploy
 
 ```sh
-npm run package      # produces lambda.zip (single handler.js, no runtime deps)
+pnpm package        # produces lambda.zip (single handler.js, no runtime deps)
 ```
 
 - **Runtime:** Node.js 20.x or later (uses built-in `fetch` and `Intl`)
